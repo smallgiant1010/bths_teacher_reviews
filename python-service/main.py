@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 import gspread
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,13 +8,15 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.edge.service import Service
 import time
+from dotenv import load_dotenv
 
+load_dotenv()
 scopes = [
     "https://www.googleapis.com/auth/spreadsheets.readonly",
     "https://www.googleapis.com/auth/drive.readonly"
 ]
 
-creds = Credentials.from_service_account_file("./secretKey.json", scopes=scopes)
+creds = Credentials.from_service_account_file(os.getenv("PATH"), scopes=scopes)
 
 client = gspread.authorize(credentials=creds) # type: ignore
 sheet = client.open("Copy of Fall 2024 BTHS Discord Crowdsourced Course/Teacher Experience Survey (Responses)").sheet1
