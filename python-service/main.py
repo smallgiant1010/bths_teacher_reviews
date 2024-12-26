@@ -16,13 +16,13 @@ scopes = [
     "https://www.googleapis.com/auth/drive.readonly"
 ]
 
-creds = Credentials.from_service_account_file(os.getenv("PATH"), scopes=scopes)
+creds = Credentials.from_service_account_file(os.getenv("API_PATH"), scopes=scopes) 
 
 client = gspread.authorize(credentials=creds) # type: ignore
 sheet = client.open("Copy of Fall 2024 BTHS Discord Crowdsourced Course/Teacher Experience Survey (Responses)").sheet1
 
 app = FastAPI()
-app.add_middleware(
+app.add_middleware( 
     CORSMiddleware,
     allow_origins=["*"], 
     allow_credentials=True,
@@ -50,11 +50,12 @@ def extract_staff_content(html_content, storage):
     if not staff_div: 
         return storage
     else:
-        for category_div in staff_div.find_all("div", { "class" : "staff-category"}): 
+        for category_div in staff_div.find_all("div", { "class" : "staff-category"}):  # type: ignore
+            category = category_div.find("h1").text
             for staff_list in category_div.find_all("ul", { "class": "staff-categoryStaffMembers" }):
                 for staff_member in staff_list.find_all("li", { "class" : "staff-categoryStaffMember" }):
                     temp = {}
-                    
+                    temp['category'] = str(category)
                     img_tag = staff_member.find("img", class_="staffPhoto lazy")
                     if img_tag:
                         src_img = img_tag.get('src')
