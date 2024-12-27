@@ -1,0 +1,27 @@
+***You must be logged in before doing anything else so make sure to do this first***
+
+Login: POST
+/api/auth/login, put the email and password in the body, returns new data
+
+SignUp: POST
+/api/auth/signup, put the email and password in the body, returns new data
+
+Logout: GET
+/api/auth/logout, no need to do anything else
+
+***Manipulate the contents of these api calls to get specific data that you need***
+
+Get All Teachers: GET
+/api/teachers/
+
+Get One Teacher: GET
+/api/teachers/teacher/<putID>, returns the teacher data
+
+Get Comments for a Teacher: GET
+/api/teachers/comment/<putTeacherID>, returns a list of comments(each comment is a object)
+
+Get teacher based on category: GET
+/api/teachers/category, put { category:<teacher category> } in the body, returns a list of teachers(each teacer is a object)
+
+Add a comment: POST
+/api/teachers/comment/<putTeacherID>, returns a object
