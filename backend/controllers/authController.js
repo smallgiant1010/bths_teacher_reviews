@@ -32,8 +32,8 @@ const errorHandler = (err) => {
     return errors;
 }
 
-const createToken = (id, email) => {
-    return jwt.sign({ id, email }, process.env.JWT_SECRET, { expiresIn: '1d'});
+const createToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1d'});
 }
 
 module.exports.post_login = async (req, res) => {

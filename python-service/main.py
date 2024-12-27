@@ -76,6 +76,20 @@ def extract_staff_content(html_content, storage):
 
     return storage 
 
+def extract_teachers_only(html_content, storage):
+    soup = BeautifulSoup(html_content, 'html5lib')
+    staff_div = soup.find("div", { "id" : "staff" })
+    if not staff_div: 
+        return storage
+    else:
+        for category_div in staff_div.find_all("div", { "class" : "staff-category"}):  # type: ignore
+            for staff_list in category_div.find_all("ul", { "class": "staff-categoryStaffMembers" }):
+                for staff_member in staff_list.find_all("li", { "class" : "staff-categoryStaffMember" }):
+                    name_tag = staff_member.find("dt")
+                    if name_tag:
+                        storage.append(name_tag.get_text(strip=True))
+
+    return storage
 
 @app.get("/api/spreadsheet")
 def get_all_data():
@@ -103,7 +117,7 @@ def get_all_data():
             "workload": workload,
             "advice": advice,
             "resources": resources,
-            "user_email": "anonymous",
+            "userid": "anonymous",
         }
         new_data.append(temp)
     return new_data
@@ -113,5 +127,8 @@ def get_all_faculty():
     html_content = scrape_website("https://www.bths.edu/apps/staff/")
     return extract_staff_content(html_content, [])
 
-
+@app.get("/api/faculty_list")
+def get_all_teachers():
+    html_content = scrape_website("https://www.bths.edu/apps/staff/")
+    return extract_teachers_only(html_content, [])
 

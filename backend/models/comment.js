@@ -12,11 +12,11 @@ const commentSchema = new mongoose.Schema({
         ref: 'User',
         validate: [mongoose.isValidObjectId, "Not a Authorized User"],
     },
-    course: {
+    courseName: {
         type: String,
         required: true
     },
-    yearsTaken: {
+    years: {
         type: String,
         required: true,
         validate: [validYearsTakenFormat, "Please Enter The Years In The Format 0000-0000"],
