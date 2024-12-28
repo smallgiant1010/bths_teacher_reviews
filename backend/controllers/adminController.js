@@ -2,6 +2,7 @@ const Comment = require("../models/comment");
 const Teacher = require("../models/teacher");
 const Admin = require("../models/admin");
 const User = require("../models/user");
+const mongoose = require("mongoose");
 const { createToken } = require("../controllers/authController");
 
 module.exports.post_createAdmin = async (req, res) => {
@@ -146,14 +147,14 @@ module.exports.post_bulk_comments = async (_, res) => {
       comments.map(async (obj) => {
         const { teacherName, userid, years, ...restOfObj } = obj;
         for (let staff of list_of_staff) {
-          if (staff.toUpperCase().includes(teacherName)) {
+          if (staff.toUpperCase().endsWith(teacherName)) {
             const match = await Comment.findOne({ ...restOfObj });
             if (match) {
               continue;
             }
             let yearsTaken = "";
             if (typeof years == "number") {
-              yearsTaken == `${years - 1}-${years}`;
+              yearsTaken = `${years - 1}-${years}`;
             }
             if (typeof years == "string") {
               switch (years.length) {
@@ -184,7 +185,6 @@ module.exports.post_bulk_comments = async (_, res) => {
               { $push: { comments: comment } },
               { new: true }
             );
-
             return teacher;
           }
         }
@@ -197,10 +197,22 @@ module.exports.post_bulk_comments = async (_, res) => {
   }
 };
 
-module.exports.patch_ban_user = (req, res) => {
+module.exports.remove_all_comments = async (_, res) => {
+  try {
+    await Comment.deleteMany({});
+    await Teacher.updateMany({}, { $set: { comments: [] } });
+    res.status(200).json({ message: "Successfully exterminated all comments" });
+  }
+  catch(err) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
+  }
+}
+
+module.exports.patch_ban_user = async (req, res) => {
     try {
         const { email } = req.body;
-        const bannedUser = User.findOneAndUpdate({ email }, { $set: { banned: true }});
+        const bannedUser = await User.findOneAndUpdate({ email }, { $set: { banned: true }});
         res.status(200).json({ message: "User Successfully banned ", user: bannedUser });
     }
     catch(err) {
@@ -209,14 +221,45 @@ module.exports.patch_ban_user = (req, res) => {
     }
 }
 
-module.exports.patch_unban_user = (req, res) => {
+module.exports.patch_unban_user = async (req, res) => {
     try {
         const { email } = req.body;
-        const unBannedUser = User.findOneAndUpdate({ email }, { $set: { banned: false }});
+        const unBannedUser = await User.findOneAndUpdate({ email }, { $set: { banned: false }});
         res.status(200).json({ message: "User Successfully unbanned ", user: unBannedUser });
     }
     catch(err) {
         console.log(err);
         res.status(500).json({ error: err.message });
     }
+}
+
+module.exports.delete_duplicates = async (_, res) => {
+  try {
+    const duplicates = await Teacher.aggregate(
+      [
+        {
+          $group: {
+            _id: "$name",
+            ids: { $push: "$_id"},
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $match: {
+            count: { $gt: 1 },
+          },
+        },
+      ]
+    );
+
+    for(let duplicate of duplicates) {
+      const idsToDelete = duplicate.ids.slice(1);
+      await Teacher.deleteMany({ _id: { $in: idsToDelete }});
+    }
+    res.status(200).json({ message: "Successfully Deleted Duplicates" });
+  }
+  catch(err) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
+  }
 }

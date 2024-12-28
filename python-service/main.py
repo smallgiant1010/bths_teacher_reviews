@@ -99,8 +99,8 @@ def get_all_data():
         _createdAt = datetime.strptime(str(obj["Timestamp"]), '%m/%d/%Y %H:%M:%S')
         courseName = str(obj["Course Name"]).rstrip().upper()
         years = obj["School year taken (i.e. 2023-24, 2022-23)"]
-        teacher_name_stringified = str(obj["Teacher name"])
-        teacherName = teacher_name_stringified[teacher_name_stringified.find(" ")+1:].upper() if teacher_name_stringified.find(" ") != -1 else teacher_name_stringified.upper()
+        teacher_name_stringified = str(obj["Teacher name"]).rstrip().lstrip()
+        teacherName = teacher_name_stringified.upper() if teacher_name_stringified.find(" ") != -1 else teacher_name_stringified.upper()
         experience = obj["How was your experience?"]
         difficulty = obj["Difficulty rating (1-10)"]
         workload = obj["Workload (1-10)"]

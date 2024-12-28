@@ -24,4 +24,8 @@ router.post("/bulkTeachers", requireAuth, controller.post_bulk_teachers);
 
 router.post("/bulkComments", requireAuth, controller.post_bulk_comments);
 
+router.delete("/exterminateComments", requireAuth, controller.remove_all_comments);
+
+router.delete("/filterDuplicates", requireAuth, controller.delete_duplicates);
+
 module.exports = router;
