@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./sidebar.css"
-import { CgMenu } from "react-icons/cg";
-import { Link } from "react-router-dom"
+import { CgMenu } from "react-icons/cg"
 
 function Sidebar() {
     const [collapsed, setCollapsed] = useState(false)
@@ -41,7 +40,7 @@ function Sidebar() {
             {!collapsed && ( 
                 <div className="sidebar-shortcuts"> 
                 {categories.map(cat => (
-                    <div key={`${cat}-shortcut`}><Link to={cat}>{cat}</Link></div>
+                    <div key={`${cat}-shortcut`}><a href={`#${cat}`}>{cat}</a></div>
                 ))} 
                 </div> 
             )}

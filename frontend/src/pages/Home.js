@@ -35,8 +35,8 @@ const Home = () => {
             </div>
 
             {categories.map(cat => (
-                <div key={cat}>
-                    <h2 id={cat}>{cat}</h2>
+                <div key={cat} id={cat}>
+                    <h2>{cat}</h2>
                     <div className="container">
                     {teachers && teachers
                     .filter(teacher => teacher.category == cat)
