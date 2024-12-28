@@ -49,7 +49,11 @@ const UserSchema = new mongoose.Schema({
     },
     banned: {
         type: Boolean,
-        required: false
+        required: true,
+    },
+    reason: {
+        type: String,
+        required: true,
     }
 });
 

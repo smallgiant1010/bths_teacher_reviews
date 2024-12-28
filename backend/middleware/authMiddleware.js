@@ -10,13 +10,14 @@ const requireAuth = async(req, res, next) => {
 
     try {
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
-        const bannedOrNot = await User.findById(id).select('banned');
-        req.user = await User.findById(id).select("_id");
+        const user = await User.findById(id);
+        const bannedOrNot = user.banned;
+        req.user = user._id;
         if(!req.user) {
             return res.status(404).json({ error: "User not found" });
         }
         if(bannedOrNot) {
-            return res.status(401).json({ error: "This user was banned"});
+            return res.status(401).json({ error: user.reason });
         }
         next();
     }

@@ -40,7 +40,7 @@ module.exports.post_login = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.login(email, password);
-        const token = createToken(user._id, email);
+        const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 3600 * 1000});
         const { pass, ...data } = user.toObject();
         res.status(200).json(data);
@@ -54,8 +54,8 @@ module.exports.post_login = async (req, res) => {
 module.exports.post_signup = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await User.create({ email, password });
-        const token = createToken(user._id, email);
+        const user = await User.create({ email, password, banned: false, reason: "" });
+        const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 3600 * 1000});
         const { pass, ...data } = user.toObject();
         res.status(200).json(data);

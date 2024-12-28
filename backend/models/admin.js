@@ -15,17 +15,15 @@ const AdminSchema = new mongoose.Schema({
 });
 
 AdminSchema.pre("save", async function(next) {
-    if (this.isModified("password")) {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
     next();
 });
 
 AdminSchema.statics.signin = async function(username, password) {
     const admin = await this.findOne({ username });
     if(admin) {
-        const match = await bcrypt.compare(admin.password, password);
+        const match = await bcrypt.compare(password, admin.password);
         if(match) {
             return admin;
         }

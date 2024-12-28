@@ -7,6 +7,9 @@ const { createToken } = require("../controllers/authController");
 module.exports.post_createAdmin = async (req, res) => {
   const { username, password } = req.body;
   try {
+    if(await Admin.findOne({ username })) {
+      return res.status(409).json({ error: "Admin already exists" });
+    }
     const user = await Admin.create({ username, password });
     const token = createToken(user._id, username);
     res.cookie("adminToken", token, {
@@ -16,23 +19,17 @@ module.exports.post_createAdmin = async (req, res) => {
     const { pass, ...data } = user.toObject();
     res.status(200).json(data);
   } catch (err) {
-    const errors = {};
-    if (err.message.includes("admin validation failed")) {
-      Object.values(err.errors).forEach(({ properties }) => {
-        errors[properties.path] = properties.message;
-      });
-    }
     res
       .status(400)
-      .json({ username: errors.username, password: errors.password });
+      .json({ error: err.message });
   }
 };
 
 module.exports.post_signin = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const user = await Admin.login(username, password);
-    const token = createToken(user._id, email);
+    const user = await Admin.signin(username, password);
+    const token = createToken(user._id);
     res.cookie("adminToken", token, {
       httpOnly: true,
       maxAge: 24 * 3600 * 1000,
@@ -40,15 +37,9 @@ module.exports.post_signin = async (req, res) => {
     const { pass, ...data } = user.toObject();
     res.status(200).json(data);
   } catch (err) {
-    const errors = {};
-    if (err.message.includes("admin validation failed")) {
-      Object.values(err.errors).forEach(({ properties }) => {
-        errors[properties.path] = properties.message;
-      });
-    }
     res
       .status(400)
-      .json({ username: errors.username, password: errors.password });
+      .json({ error: err.message });
   }
 };
 
@@ -113,8 +104,11 @@ module.exports.post_bulk_teachers = async (_, res) => {
       .then((response) => response.json())
       .catch((err) => console.log(err));
     for (let obj of faculty_list) {
-      const { img, name, occupation, category } = obj;
-      const match = await Teacher.find({ name, category, role: occupation });
+      let { img, name, occupation, category } = obj;
+      if(!occupation) {
+        occupation = "Teacher"
+      }
+      const match = await Teacher.findOne({ img_url: img, name, category, role: occupation });
       if (match) {
         continue;
       }
