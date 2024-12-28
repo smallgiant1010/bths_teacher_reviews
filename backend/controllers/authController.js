@@ -41,7 +41,7 @@ module.exports.post_login = async (req, res) => {
     try {
         const user = await User.login(email, password);
         const token = createToken(user._id);
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 3600 * 1000});
+        res.cookie('jwt', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 24 * 3600 * 1000});
         const { pass, ...data } = user.toObject();
         res.status(200).json(data);
     }
@@ -56,7 +56,7 @@ module.exports.post_signup = async (req, res) => {
     try {
         const user = await User.create({ email, password, banned: false, reason: "" });
         const token = createToken(user._id);
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 3600 * 1000});
+        res.cookie('jwt', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 24 * 3600 * 1000});
         const { pass, ...data } = user.toObject();
         res.status(200).json(data);
     }
@@ -64,9 +64,4 @@ module.exports.post_signup = async (req, res) => {
         const errors = errorHandler(err);
         res.status(400).json({ email: errors.email, password: errors.password });
     }
-};
-
-module.exports.get_logout = (_, res) => {
-    res.cookie('jwt', '', { expires: new Date(0), httpOnly: true, secure: true });
-    res.status(200).json({ message: "Successfully Signed Out" });
 };

@@ -18,8 +18,6 @@ export const AuthContextProvider = ({ children }) => {
         user: null,
     });
 
-    // Not a react component so can't use react-cookie
-    // Auto login if cookie already exists
     useEffect(() => {
         const getCookie = (name) => {
             const cookies = document.cookie.split(";");

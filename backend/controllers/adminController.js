@@ -15,6 +15,7 @@ module.exports.post_createAdmin = async (req, res) => {
     const token = createToken(user._id, username);
     res.cookie("adminToken", token, {
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 3600 * 1000,
     });
     const { pass, ...data } = user.toObject();
@@ -33,6 +34,7 @@ module.exports.post_signin = async (req, res) => {
     const token = createToken(user._id);
     res.cookie("adminToken", token, {
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 3600 * 1000,
     });
     const { pass, ...data } = user.toObject();
@@ -42,15 +44,6 @@ module.exports.post_signin = async (req, res) => {
       .status(400)
       .json({ error: err.message });
   }
-};
-
-module.exports.get_signout = (_, res) => {
-  res.cookie("adminToken", "", {
-    expires: new Date(0),
-    httpOnly: true,
-    secure: true,
-  });
-  res.status(200).json({ message: "Successfully Signed Out" });
 };
 
 module.exports.get_all_unbanned_users = async (_, res) => {

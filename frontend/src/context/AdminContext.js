@@ -23,6 +23,23 @@ export const AdminContextProvider = ({ children }) => {
         users: null,
     });
 
+    useEffect(() => {
+            const getCookie = (name) => {
+                const cookies = document.cookie.split(";");
+                for(let i = 0;i < cookies.length;i++) {
+                    const [key, value] = cookies[i].split("=");
+                    if(key === name) {
+                        return decodeURIComponent(value);
+                    }
+                }
+                return null;
+            }
+            const token = getCookie('adminToken');
+            if(token) {
+                dispatch({ type: 'SIGNIN', payload: token});
+            }
+        }, [dispatch]);
+    
     return (
         <AdminContext.Provider value={{...state, dispatch}}>
             {children}
