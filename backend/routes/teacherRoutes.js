@@ -19,9 +19,7 @@ router.post("/newTeachers", requireAuth, controller.post_new_teacher);
 
 router.post("/comment/:id", requireAuth, controller.post_specific_comment);
 
-router.post("/bulkTeachers", controller.post_bulk_teachers);
-
-router.post("/bulkComments", controller.post_bulk_comments);
+router.delete("/comment/:id", requireAuth, controller.remove_specific_comment);
 
 
 module.exports = router;

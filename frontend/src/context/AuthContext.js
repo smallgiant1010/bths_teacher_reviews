@@ -1,5 +1,4 @@
 import { createContext, useEffect, useReducer } from "react";
-import { useCookies } from 'react-cookie';
 
 export const AuthContext = createContext();
 
@@ -19,13 +18,24 @@ export const AuthContextProvider = ({ children }) => {
         user: null,
     });
 
+    // Not a react component so can't use react-cookie
+    // Auto login if cookie already exists
     useEffect(() => {
-        const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
-        const token = cookies.jwt;
-        if(token) {
-            dispatch({type: 'LOGIN', payload: token});
+        const getCookie = (name) => {
+            const cookies = document.cookie.split(";");
+            for(let i = 0;i < cookies.length;i++) {
+                const [key, value] = cookies[i].split("=");
+                if(key === name) {
+                    return decodeURIComponent(value);
+                }
+            }
+            return null;
         }
-    });
+        const token = getCookie('jwt');
+        if(token) {
+            dispatch({ type: 'LOGIN', payload: token});
+        }
+    }, [dispatch]);
 
     return (
         <AuthContext.Provider value={{...state, dispatch}}>

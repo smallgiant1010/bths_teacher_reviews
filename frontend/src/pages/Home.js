@@ -6,7 +6,7 @@ const Home = () => {
     useEffect(() => {
         const fetchTeachers = async () => {
             const response = await fetch("/api/teachers/")
-            const content = await response.json
+            const content = await response.json();
 
             if (response.ok) {
                 get_all_teachers(content)

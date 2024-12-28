@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const teacherRoutes = require("./routes/teacherRoutes");
 const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 // Initialize Backend
 const app = express();
@@ -41,3 +42,4 @@ mongoose.connection.on("disconnected", () => {
 // Route Handling
 app.use('/api/teachers', teacherRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);

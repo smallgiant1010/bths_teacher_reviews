@@ -46,6 +46,10 @@ const UserSchema = new mongoose.Schema({
                 message: "Password must contain atleast 1 symbol",
             },
         ]
+    },
+    banned: {
+        type: Boolean,
+        required: false
     }
 });
 

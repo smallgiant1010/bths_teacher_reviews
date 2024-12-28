@@ -85,6 +85,26 @@ module.exports.get_specific_comments = async (req, res) => {
   }
 };
 
+module.exports.remove_specific_comment = async(req, res) => {
+    const teacherId = req.params.id;
+    const { id } = req.body;
+    if (!mongoose.Types.ObjectId.isValid(id) || !mongoose.Types.ObjectId.isValid(teacherId)) {
+        return res.status(400).json({ error: "Invalid ID Formats" });
+    }
+    try {
+        const deletedComment = await Comment.findByIdAndDelete(id);
+        const teacher = await Teacher.findByIdAndUpdate(teacherId, { $pull : { comments: { _id: id }}}, { new: true });
+        if(!teacher) {
+            return res.status(404).json({ error: "Teacher Not Found" });
+        }
+        res.status(200).json({ message: "Comment Successfully Deleted", deletedComment });
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
 module.exports.post_specific_comment = async (req, res) => {
   const id = req.params.id;
   const data = req.body;
@@ -110,96 +130,3 @@ module.exports.post_specific_comment = async (req, res) => {
   }
 };
 
-module.exports.post_bulk_teachers = async (_, res) => {
-  try {
-    const final_list = [];
-    const faculty_list = await fetch("http://127.0.0.1:8000/api/full_faculty")
-      .then((response) => response.json())
-      .catch((err) => console.log(err));
-    for (let obj of faculty_list) {
-      const { img, name, occupation, category } = obj;
-      const match = await Teacher.find({ name, category, role: occupation });
-      if (match) {
-        continue;
-      }
-      const newTeacher = await Teacher.create({
-        img_url: img,
-        role: occupation,
-        comments: [],
-        name,
-        category,
-      });
-      final_list.push(newTeacher);
-    }
-    res.status(200).json(final_list);
-  } catch (err) {
-    console.log(err);
-    res.status(503).json({ error: err.message });
-  }
-};
-
-module.exports.post_bulk_comments = async (_, res) => {
-  try {
-    const list_of_staff = await fetch(
-      "http://127.0.0.1:8000/api/faculty_list"
-    ).then((response) => response.json());
-    if(!list_of_staff) {
-        return res.status(404).json({ error: "Can't find faculty List"});
-    }
-    const comments = await fetch("http://127.0.0.1:8000/api/spreadsheet").then(
-      (response) => response.json()
-    );
-    if(!comments) {
-        return res.status(404).json({ error: "Can't find comments"});
-    }
-    let result = await Promise.all(
-      comments.map(async (obj) => {
-        const { teacherName, userid, years, ...restOfObj } = obj;
-        for (let staff of list_of_staff) {
-          if (staff.toUpperCase().includes(teacherName)) {
-            const match = await Comment.findOne({...restOfObj});
-            if(match) {
-                continue;
-            }
-            let yearsTaken = ""
-            if(typeof years == "number") {
-                yearsTaken == `${years-1}-${years}`;
-            }
-            if(typeof years == "string") {
-                switch(years.length) {
-                    case 5:
-                        yearsTaken = `20${years.slice(0, 2)}-20${years.slice(3, 5)}`;
-                        break;
-                    case 7:
-                        yearsTaken = `20${years.slice(2, 4)}-20${years.slice(years.length - 2, years.length)}`;
-                        break;
-                    case 10:
-                        yearsTaken = years.trimEnd();
-                        break;
-                    default:
-                        yearsTaken = years;
-                }
-            }
-            const comment = await Comment.create({
-              ...restOfObj,
-              teacherName: staff,
-              years: yearsTaken,
-              userid: new mongoose.Types.ObjectId('676de7fcbce36c1a635c1e36'),
-            });
-            const teacher = await Teacher.findOneAndUpdate(
-              { name: staff },
-              { $push: { comments: comment } },
-              { new: true }
-            );
-
-            return teacher;
-          }
-        }
-      })
-    );
-    res.status(200).json(result.filter(Boolean));
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err.message });
-  }
-};
