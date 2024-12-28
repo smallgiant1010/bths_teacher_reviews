@@ -3,7 +3,7 @@ const Admin = require("../models/admin");
 require('dotenv').config();
 
 
-module.exports.requireAuth = async (req, res, next) => {
+module.exports = async (req, res, next) => {
     const token = req.cookies.adminToken;
     if(!token) {
         return res.status(401).json({ error: "Admin Token Not Found" });

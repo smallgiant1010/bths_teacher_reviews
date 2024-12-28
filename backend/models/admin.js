@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 require('dotenv').config();
 
-const AdminSchema = new mongoose.model({
+const AdminSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        validate: [(username) => { return username == 'admin'}, "Admin doesn't exist"]
+        validate: [(username) => { return username === "admin"}, "User must be an Admin"]
     },
     password: {
         type: String,
@@ -15,8 +15,10 @@ const AdminSchema = new mongoose.model({
 });
 
 AdminSchema.pre("save", async function(next) {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    if (this.isModified("password")) {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+    }
     next();
 });
 
@@ -35,4 +37,5 @@ AdminSchema.statics.signin = async function(username, password) {
         throw Error('Username is Not Correct');
     }
 }
-module.exports = new mongoose.model("admin", AdminSchema);
+
+module.exports = mongoose.model("admin", AdminSchema);

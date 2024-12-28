@@ -7,7 +7,6 @@ const Home = () => {
         const fetchTeachers = async () => {
             const response = await fetch("/api/teachers/")
             const content = await response.json();
-
             if (response.ok) {
                 get_all_teachers(content)
             }

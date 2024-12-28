@@ -32,7 +32,7 @@ const errorHandler = (err) => {
     return errors;
 }
 
-export const createToken = (id) => {
+module.exports.createToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1d'});
 }
 
