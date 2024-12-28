@@ -1,9 +1,16 @@
-.sidebar {
-    width: 200px;
+#sidebar {
+    width: 300px;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-color: rgb(254, 255, 220);
     position: fixed;
     top: 0;
     left: 0;
     padding: 20px;
+}
+#menu-button {
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    align-items: center;
+    border-radius: 5px;
 }

@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.sidebar { 
+    width: 200px; 
+    height: 100vh; 
+    background-color: rgb(254, 255, 220); 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    padding: 20px; 
+    transition: width 0.3s ease;
+} 
+.sidebar.collapsed { 
+    width: 60px;
+}

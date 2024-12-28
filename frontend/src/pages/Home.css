@@ -1,0 +1,38 @@
+body, html {
+    align-items: center;
+    background-color:azure;
+    padding: 20px;
+}
+#searchbar {
+    height: 25px;
+    width: 400px;
+    border-radius: 5px;
+}
+h2 {
+    margin-bottom: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.container { 
+    display: grid; 
+    grid-template-columns: 
+    repeat(3, 1fr); gap: 10px; 
+}
+img {
+    height: 80px;
+    width: 80px;
+}
+.teacherProfile {
+    border: 3px solid;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.teacherName {
+    font-size: 10px;
+    font-weight: bold;
+}
+.teacherPosition {
+    font-size: 10px;
+    color: darkgray;
+}
