@@ -1,13 +1,19 @@
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const withAdmin = (WrappedComponent) => {
     return (props) => {
         const [cookies] = useCookies(['adminToken']);
-        const history = useHistory();
+        const navigate = useNavigate();
+
+        useEffect(() => {
+            if(!cookies.adminToken) {
+                navigate('/login');
+            }
+        }, [cookies.adminToken, navigate]);
 
         if(!cookies.adminToken) {
-            history.push('/login');
             return null;
         }
 
