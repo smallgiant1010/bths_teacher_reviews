@@ -226,6 +226,24 @@ module.exports.patch_unban_user = async (req, res) => {
     }
 }
 
+module.exports.patch_img_url = async(_, res) => {
+  try {
+    const staff_list = await fetch("http://127.0.0.1:8000/api/full_faculty").then(data => data.json());
+    if(!staff_list) {
+      return res.status(404).json({ message: "Couldn't reach Teacher endpoint" });
+    }
+    const result = [];
+    for(const teacher of staff_list) {
+      const newTeacher = await Teacher.updateOne({name: teacher.name}, { $set: { img_url: teacher.img }});
+      result.push(newTeacher);
+    }
+    res.status(200).json(result);
+  }
+  catch(err) {
+    console.log(err.message)
+  }
+}
+
 module.exports.delete_duplicates = async (_, res) => {
   try {
     const duplicates = await Teacher.aggregate(

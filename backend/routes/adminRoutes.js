@@ -18,6 +18,8 @@ router.patch("/ban", requireAuth, controller.patch_ban_user);
 
 router.patch("/unban", requireAuth, controller.patch_unban_user);
 
+router.patch("/newTeacherImages", requireAuth, controller.patch_img_url);
+
 router.post("/bulkTeachers", requireAuth, controller.post_bulk_teachers);
 
 router.post("/bulkComments", requireAuth, controller.post_bulk_comments);

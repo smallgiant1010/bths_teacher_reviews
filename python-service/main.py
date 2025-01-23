@@ -38,8 +38,11 @@ def scrape_website(website):
         driver.get(website)
         print("Page Loaded...")
         driver.implicitly_wait(5)
-        html = driver.page_source
+        for i in range(28):
+            driver.execute_script(f"window.scrollTo(0, {1000 * (i+1)});")
+            time.sleep(1)
         time.sleep(5)
+        html = driver.page_source
         return html
     finally:
         driver.quit()
@@ -56,7 +59,7 @@ def extract_staff_content(html_content, storage):
                 for staff_member in staff_list.find_all("li", { "class" : "staff-categoryStaffMember" }):
                     temp = {}
                     temp['category'] = str(category)
-                    img_tag = staff_member.find("img", class_="staffPhoto lazy")
+                    img_tag = staff_member.find("img", attrs={"onload": "StaffPhotoCom.onload.call(this)"})
                     if img_tag:
                         src_img = img_tag.get('src')
                         temp["img"] = f"https://www.bths.edu/{src_img}"
