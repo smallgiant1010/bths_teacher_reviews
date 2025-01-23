@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import "./sidebar.css"
+import "../css/sidebar.css"
 import { CgMenu } from "react-icons/cg"
 
 function Sidebar() {
