@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import "./css/index.css";
 import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
-import { CommentContextProvider } from "./context/CommentContext";
 import { AdminContextProvider } from "./context/AdminContext";
 import { CookiesProvider } from "react-cookie";
 
@@ -12,11 +11,9 @@ root.render(
   <CookiesProvider>
     <AdminContextProvider>
       <AuthContextProvider>
-        <CommentContextProvider>
           <React.StrictMode>
             <App />
           </React.StrictMode>
-        </CommentContextProvider>
       </AuthContextProvider>
     </AdminContextProvider>
   </CookiesProvider>

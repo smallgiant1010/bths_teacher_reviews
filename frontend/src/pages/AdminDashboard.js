@@ -1,4 +1,4 @@
-import { withAdmin } from "../components/withAdmin"
+import withAdmin from "../components/withAdmin"
 
 const AdminDashboard = () => {
     return <p>Admin Dashboard</p>
