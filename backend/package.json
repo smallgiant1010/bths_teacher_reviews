@@ -21,6 +21,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.2",
     "morgan": "^1.10.0",
+    "universal-cookie": "^7.2.2",
+    "universal-cookie-express": "^7.2.2",
     "validator": "^13.12.0"
   }
 }
