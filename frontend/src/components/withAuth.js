@@ -1,17 +1,11 @@
 import { useCookies } from "react-cookie";
-import { useHistory } from 'react-router-dom';
 
 const withAuth = (WrappedComponent) => {
     return (props) => {
         const [cookies] = useCookies(['jwt']);
-        const history = useHistory();
+        const loggedIn = cookies.jwt !== null;
 
-        if(!cookies.jwt) {
-            history.push('/login');
-            return null;
-        }
-
-        return <WrappedComponent {...props} />;
+        return <WrappedComponent {...props} loggedIn={loggedIn} />;
     }
 }
 
