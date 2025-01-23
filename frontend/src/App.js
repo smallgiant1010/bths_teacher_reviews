@@ -5,7 +5,7 @@ import Sidebar from "./components/sidebar.js"
 import Home from "./pages/Home.js"
 import Login from "./pages/Login.js"
 import Error404 from "./pages/PageNotFound.js"
-import TeacherDetails from "./pages/TeacherPages.js"
+import TeacherDetails from "./pages/TeacherDetails.js"
 import AdminDashboard from "./pages/AdminDashboard.js"
 import { AuthContextProvider, AuthContext } from "./context/AuthContext.js"
 

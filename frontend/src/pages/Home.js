@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import "./Home.css"
+import "../css/Home.css"
 
 const Home = () => {
     const [teachers, get_all_teachers] = useState(null)
