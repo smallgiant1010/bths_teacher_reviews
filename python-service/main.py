@@ -38,8 +38,8 @@ def scrape_website(website):
         driver.get(website)
         print("Page Loaded...")
         driver.implicitly_wait(5)
-        for i in range(28):
-            driver.execute_script(f"window.scrollTo(0, {1000 * (i+1)});")
+        for i in range(40):
+            driver.execute_script(f"window.scrollTo(0, {750 * (i+1)});")
             time.sleep(1)
         time.sleep(5)
         html = driver.page_source
