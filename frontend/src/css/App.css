@@ -1,17 +1,37 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-.sidebar { 
-    width: 200px; 
+.App {
+    display: flex;
+    flex-direction: row;
     height: 100vh; 
-    background-color: rgb(254, 255, 220); 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    padding: 20px; 
-    transition: width 0.3s ease;
-} 
-.sidebar.collapsed { 
-    width: 60px;
+}
+
+#sidebar {
+    width: 250px; 
+    height: 100vh;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background: rgb(27, 26, 26);
+    color: white;
+    font-weight: 600;
+    font-size: 1.2em;
+    padding: 5px 10px 10px 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease; 
+    transform: translateX(0);
+}
+
+#sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+.pages {
+    flex: 1; 
+    margin-left: 300px;
+    padding: 20px;
+    transition: margin-left 0.3s ease; 
+}
+
+#sidebar.collapsed ~ .pages {
+    margin-left: 0; 
 }

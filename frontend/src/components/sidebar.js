@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import "../css/sidebar.css"
-import { CgMenu } from "react-icons/cg"
 
 function Sidebar() {
     const [collapsed, setCollapsed] = useState(false)
     const toggleSidebar = () => { setCollapsed(!collapsed) }
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const navigate = useNavigate()
+
+    const handleAuthButton = () => {
+        if (isLoggedIn) {
+            setIsLoggedIn(false)
+            //Set context/remove cookie to log out
+        } else {
+            navigate('/login')
+        }
+    };
 
     const [teachers, get_all_teachers] = useState(null)
         useEffect(() => {
@@ -33,14 +45,15 @@ function Sidebar() {
         const categories = Array.from(set)
 
     return (
-        <div id={`sidebar${collapsed?'collapsed':''}`}>
-            <button type="button" onClick={toggleSidebar} id="menu-button">
-                <CgMenu/> 
+        <div id="sidebar" className={collapsed ? 'collapsed' : ''}>
+            <button id="toggle-button" type="button" onClick={toggleSidebar}>
+                {collapsed ? "→" : "←"}
             </button>
+            
             {!collapsed && ( 
                 <div className="sidebar-shortcuts"> 
                 {categories.map(cat => (
-                    <div key={`${cat}-shortcut`}><a href={`#${cat}`}>{cat}</a></div>
+                    <div key={`${cat}-shortcut`}><a href={`#${cat}`} >{cat}</a></div>
                 ))} 
                 </div> 
             )}

@@ -1,16 +1,81 @@
 #sidebar {
-    width: 300px;
+    width: fit-content;
     height: 100vh;
-    background-color: rgb(254, 255, 220);
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background: rgb(27, 26, 26);
+    color: white;
+    font-weight: 600;
+    font-size: 1.2em;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
     position: fixed;
     top: 0;
     left: 0;
-    padding: 20px;
+    transition: transform 0.3s ease; 
+    transform: translateX(0);
 }
-#menu-button {
-    height: 25px;
-    width: 25px;
-    background-color: white;
-    align-items: center;
-    border-radius: 5px;
+
+#sidebar.collapsed {
+    transform: translateX(-100%); 
+}
+
+.sidebar-shortcuts {
+    margin-top: 50px; 
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+.sidebar-shortcuts a {
+    color: grey;
+    font-size: 0.8em; 
+    padding: 4px 10px;
+    border-left: 2px solid grey;
+    cursor: pointer;
+    margin-bottom: 4px; 
+    text-decoration: none; 
+    transition: color 0.3s ease, background-color 0.3s;
+    display: block; 
+}
+
+.sidebar-shortcuts a:hover {
+    color: rgb(123, 245, 245);
+}
+
+.sidebar-shortcuts a:active {
+    color: #3775bb;
+}
+
+#toggle-button { 
+    position: fixed; 
+    top: 0; 
+    left: 15px; 
+    z-index: 1000; 
+    margin: 10px 0; 
+    padding: 10px 14px; 
+    transition: all 0.2s ease; 
+    border: none; 
+    background: #b1dae7; 
+    border-radius: 50px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-family: "Ubuntu", sans-serif; 
+    font-size: 16px; 
+    font-weight: 700; 
+    color: #234567; 
+} 
+    
+#toggle-button:hover { 
+    background-color: #004d92; 
+    color: white; 
+} 
+
+#toggle-button:active { 
+    transform: scale(0.95); 
 }
