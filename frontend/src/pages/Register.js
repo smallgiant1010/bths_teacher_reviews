@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
 import "../css/Login.css"
 
-const Login = ({ setSidebarVisible }) => {
+const Register = ({ setSidebarVisible }) => {
     useEffect(() => {
         setSidebarVisible(false)
         return () => {
@@ -13,7 +13,7 @@ const Login = ({ setSidebarVisible }) => {
     return (
         <div className="login">
             <div className="login-container">
-                <h2>Login</h2>
+                <h2>Register</h2>
                 <form>
                     <label htmlFor="username">Username:</label>
                     <input type="text" id="username" name="username" />
@@ -21,12 +21,15 @@ const Login = ({ setSidebarVisible }) => {
                     <label htmlFor="password">Password:</label>
                     <input type="password" id="password" name="password" />
                     <br />
-                    <button type="submit">Login</button>
+                    <label htmlFor="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" />
+                    <br />
+                    <button type="submit">Register</button>
                 </form>
-                <Link to="/register">Don't have an account? Register here</Link>
+                <Link to="/login">Already have an account? Login here</Link>
             </div>
         </div>
     )
 }
 
-export default Login
+export default Register

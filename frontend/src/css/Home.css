@@ -1,6 +1,5 @@
-body, html {
-    align-items: center;
-    background-color:azure;
+.home {
+    background-color: rgb(213, 247, 253);
     padding: 20px;
 }
 #searchbar {
