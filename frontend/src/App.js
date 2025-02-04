@@ -17,7 +17,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
       {sidebarVisible && (
-                    <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
       )}
         <div className={`pages ${!sidebarVisible ? 'invisible' : ''}`}>
           <Routes>

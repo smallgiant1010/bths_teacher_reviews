@@ -3,11 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
 import "../css/sidebar.css"
 
-function Sidebar() {
-    const [collapsed, setCollapsed] = useState(false)
-    const {logout} = useLogout();
+const Sidebar = ({ collapsed, setCollapsed }) => {
     const toggleSidebar = () => { setCollapsed(!collapsed) }
-
+    const {logout} = useLogout();
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const navigate = useNavigate()
 
