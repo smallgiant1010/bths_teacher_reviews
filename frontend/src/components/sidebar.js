@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useLogout } from '../hooks/useLogout'
 import "../css/sidebar.css"
 
 function Sidebar() {
     const [collapsed, setCollapsed] = useState(false)
+    const {logout} = useLogout();
     const toggleSidebar = () => { setCollapsed(!collapsed) }
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -12,7 +14,8 @@ function Sidebar() {
     const handleAuthButton = () => {
         if (isLoggedIn) {
             setIsLoggedIn(false)
-            //Set context/remove cookie to log out
+            // Logout function that automatically removes cookies for both admin and regular user
+            logout();
         } else {
             navigate('/login')
         }
