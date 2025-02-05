@@ -37,7 +37,7 @@ const Register = ({ setSidebarVisible }) => {
                     <label htmlFor="confirm-password">Confirm Password:</label>
                     <input type="password" id="confirm-password" name="confirm-password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
                     <br />
-                    {error.error ? <p>{error.error}</p> :<p></p>}
+                    {error ? <p>{error.error}</p> :<p></p>}
                     <button type="submit">{isLoading ? 'Registering...' : 'Register'}</button>
                 </form>
                 <Link to="/login">Already have an account? Login here</Link>

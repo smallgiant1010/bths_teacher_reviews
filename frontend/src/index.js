@@ -4,6 +4,7 @@ import "./css/index.css";
 import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 import { AdminContextProvider } from "./context/AdminContext";
+import { TeacherContextProvider } from "./context/TeachersContext";
 import { CookiesProvider } from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -11,9 +12,11 @@ root.render(
   <CookiesProvider>
     <AdminContextProvider>
       <AuthContextProvider>
+        <TeacherContextProvider>
           <React.StrictMode>
             <App />
           </React.StrictMode>
+        </TeacherContextProvider>
       </AuthContextProvider>
     </AdminContextProvider>
   </CookiesProvider>

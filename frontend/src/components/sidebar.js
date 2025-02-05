@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
+import { useTeachersContext } from '../hooks/useTeachersContext'
 import "../css/sidebar.css"
 
 const Sidebar = ({ collapsed, setCollapsed }) => {
@@ -35,7 +36,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                     console.error("Error fetching teachers: ", error)
                 }
             }
-           
+            
             fetchTeachers()
         }, [])
     

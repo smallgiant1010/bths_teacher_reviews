@@ -27,11 +27,11 @@ const Login = ({ setSidebarVisible }) => {
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="username">Username:</label>
                     <input type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)}/>
-                    {error?.email ? <p>{error.email}</p> : <p></p>}
+                    {error ? <p>{error.email}</p> : <p></p>}
                     <br />
                     <label htmlFor="password">Password:</label>
                     <input type="password" id="password" name="password" value={password} onChange={e => setPassword(e.target.value)}/>
-                    {error?.password ? <p>{error.password}</p> : <p></p>}
+                    {error ? <p>{error.password}</p> : <p></p>}
                     <br />
                     <button type="submit">{isLoading ? 'Logging In...' : 'Login'}</button>
                 </form>
