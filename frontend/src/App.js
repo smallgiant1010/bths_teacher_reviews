@@ -6,7 +6,6 @@ import Home from "./pages/Home.js"
 import Login from "./pages/Login.js"
 import Register from "./pages/Register.js"
 import Error404 from "./pages/PageNotFound.js"
-import TeacherDetails from "./pages/TeacherDetails.js"
 import AdminDashboard from "./pages/AdminDashboard.js"
 
 function App() {
@@ -24,7 +23,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setSidebarVisible={setSidebarVisible} />} />
             <Route path="/register" element={<Register setSidebarVisible={setSidebarVisible} />} />
-            <Route path="/teacher/:id" element={ <TeacherDetails />} />
             <Route path="/admin" element={ <AdminDashboard />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
@@ -33,4 +31,4 @@ function App() {
     </div>
   )
 }
-export default App;
+export default App
