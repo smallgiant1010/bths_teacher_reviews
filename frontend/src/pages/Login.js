@@ -4,14 +4,19 @@ import { useLogin } from '../hooks/useLogin'
 import "../css/Login.css"
 
 const Login = ({ setSidebarVisible }) => {
-    const { error, isLoading, userLogin } = useLogin()
+    const { error, isLoading, userLogin, adminLogin } = useLogin()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        await userLogin(username, password)
+        if(username !== 'admin') {
+            await userLogin(username, password);
+        }
+        else {
+            await adminLogin(username, password);
+        }
     }
 
     useEffect(() => {

@@ -83,7 +83,7 @@ const Home = () => {
                                          teacher.role.toLowerCase().includes(searchTerm.toLowerCase())))
                                     .map(teacher => (
                                         <div key={teacher._id} className="teacherProfile">
-                                            <img src={teacher.img_url} alt="image"/>
+                                            <img src={teacher.img_url} alt={`Image of ${teacher.img_url}`}/>
                                             <p className="teacherName">{teacher.name}</p>
                                             <p className="teacherPosition">{teacher.role}</p>
                                             <button className="view-details-button" onClick={() => setSelectedTeacher(teacher)}>
