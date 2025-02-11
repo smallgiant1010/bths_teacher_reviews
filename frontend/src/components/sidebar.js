@@ -38,6 +38,11 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                 {categories.map(cat => (
                     <div key={`${cat}-shortcut`}><a href={`#${cat}`} >{cat}</a></div>
                 ))} 
+                    <div id="log">
+                        <a onClick={handleAuthButton}>
+                            {isLoggedIn ? "Log Out" : "Log In"}
+                        </a>
+                    </div>
                 </div> 
             )}
         </div>
