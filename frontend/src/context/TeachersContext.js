@@ -16,7 +16,7 @@ const teacherContextReducer = (state, action) => {
 }
 
 export const TeacherContextProvider = ({ children }) => {
-    const {state, dispatch} = useReducer(teacherContextReducer, {
+    const [state, dispatch] = useReducer(teacherContextReducer, {
         teachers: [],
     })
 

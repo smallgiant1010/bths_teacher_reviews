@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useState, memo } from "react"
 import "../css/Home.css"
 import withAuth from "../components/withAuth"
+import { useTeachersContext } from "../hooks/useTeachersContext";
 
 const AddCommentSection = (props) => {
     return <button>Add Comment: {props.loggedIn}</button>
@@ -9,28 +10,10 @@ const AddCommentSection = (props) => {
 const EnhancedCommentSection = withAuth(AddCommentSection)
 
 const Home = () => {
-    const [teachers, getAllTeachers] = useState(null)
+    const {teachers} = useTeachersContext();
     const [searchValue, setSearchValue] = useState("")
     const [searchTerm, setSearchTerm] = useState("")
     const [selectedTeacher, setSelectedTeacher] = useState(null)
-
-    useEffect(() => {
-        const fetchTeachers = async () => {
-            try {
-                const response = await fetch("/api/teachers/")
-                const content = await response.json()
-                if (response.ok) {
-                    console.log("Fetched teachers: ", content)
-                    getAllTeachers(content)
-                } else {
-                    console.error("Failed to fetch teachers")
-                }
-            } catch (error) {
-                console.error("Error fetching teachers: ", error)
-            }
-        }
-        fetchTeachers()
-    }, [])
 
     const handleSearchClick = () => {
         setSearchTerm(searchValue)
@@ -134,4 +117,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default memo(Home);
