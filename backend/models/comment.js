@@ -32,10 +32,12 @@ const commentSchema = new mongoose.Schema({
     difficulty: {
         type: Number,
         required: true,
+        validate: [(e) => e >= 1 && e < 10, "Enter a valid rating"],
     },
     workload: {
         type: Number,
         required: true,
+        validate: [(e) => e >= 1 && e < 10, "Enter a valid rating"],
     },
     advice: {
         type: String,

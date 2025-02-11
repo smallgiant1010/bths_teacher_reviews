@@ -274,3 +274,63 @@ module.exports.delete_duplicates = async (_, res) => {
     res.status(400).json({ error: err.message });
   }
 }
+
+module.exports.patch_properties = async(req, res) => {
+  try {
+    const results = [];
+    const property_object = req.body;
+    for(const [key, value] of Object.entries(property_object)) {
+      const result = await Teacher.updateMany({}, { $set: { [key]: value }});
+      results.push(result);
+    }
+    res.status(200).json({ results });
+  }
+  catch(err) {
+    console.log(err);
+    res.status(400).json({ error : err.message });
+  }
+}
+
+module.exports.update_averages = async(_, res) => {
+  try {
+    const comments = await Comment.find({});
+    if(!comments) {
+      res.status(404).json({ error: "No Comments!" });
+    }
+    const teacherData = {};
+
+    for(let comment of comments) {
+      if(!teacherData[comment.teacherName]) {
+        teacherData[comment.teacherName] = {
+          totalDifficulty: 0,
+          totalWorkLoad: 0,
+          count: 0,
+        };
+      }
+      teacherData[comment.teacherName].totalDifficulty += comment.difficulty;
+      teacherData[comment.teacherName].totalWorkLoad += comment.workload;
+      teacherData[comment.teacherName].count++;
+    }
+
+    const bulkOperations = Object.entries(teacherData).map(([teacherName, data]) => {
+      const avgDifficulty = data.totalDifficulty/data.count;
+      const avgWorkload = data.totalWorkLoad/data.count;
+      return {
+        updateOne: {
+          filter: { name: teacherName },
+          update: {
+            difficulty: avgDifficulty,
+            workload: avgWorkload
+          }
+        }
+      };
+    });
+
+    const results = await Teacher.bulkWrite(bulkOperations);
+    res.status(200).json({ results });
+  }
+  catch(err) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
+  }
+}

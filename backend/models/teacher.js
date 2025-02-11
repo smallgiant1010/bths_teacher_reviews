@@ -13,6 +13,14 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    difficulty: {
+        type: Number,
+        required: true
+    },
+    workload: {
+        type: Number,
+        required: true,
+    },
     category: {
         type: String,
         required: true,

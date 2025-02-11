@@ -28,4 +28,8 @@ router.delete("/exterminateComments", requireAuth, controller.remove_all_comment
 
 router.delete("/filterDuplicates", requireAuth, controller.delete_duplicates);
 
+router.patch("/updateTeacherProperties", requireAuth, controller.patch_properties);
+
+router.patch("/updateAverages", requireAuth, controller.update_averages);
+
 module.exports = router;
