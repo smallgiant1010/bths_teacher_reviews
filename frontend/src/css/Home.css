@@ -91,21 +91,15 @@ img {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .teacherName {
-    font-size: 10px;
+    font-size: 15px;
     font-weight: bold;
 }
+
 .teacherPosition {
-    font-size: 10px;
+    font-size: 12px;
     color: darkgray;
-}
-
-.teacherInfo {
-    display: flex;
-    align-items: center;
-}
-
-.teacherImg {
-    margin-right: 10px; 
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
 }
 
 .home {
@@ -223,49 +217,6 @@ img {
     margin-right: 10px;
 }
 
-.ratingContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.difficulty-rating-label {
-    font-size: 12px;
-    margin-bottom: 5px;
-}
-
-.difficulty-rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-start;
-}
-
-.rating {
-    pointer-events: none; 
-}
-
-.rating:not(:checked) > input {
-    position: absolute;
-    appearance: none;
-}
-
-.rating:not(:checked) > label {
-    float: right;
-    cursor: default; 
-    font-size: 20px;
-    color: #666;
-}
-
-.rating:not(:checked) > label:before {
-    content: '★';
-}
-
-.rating > input:checked + label,
-.rating > input:checked + label ~ label,
-.rating > input:checked ~ label {
-    color: #ffa723;
-}
-
 .view-details-button {
     cursor: pointer;
     font-size: medium;
@@ -325,46 +276,10 @@ img {
     color: darkgray;
 }
 
-.difficulty-rating-label {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-    pointer-events: none; 
-}
-
-.rating input {
-    display: none;
-}
-
-.rating label {
-    font-size: 30px;
-    color: #666;
-    cursor: default;
-}
-
-.rating label:before {
-    content: '★';
-}
-
-.rating input:checked ~ label {
-    color: #ffa723;
-}
-
 .comments {
     width: 100%;
     max-width: 600px;
     margin-top: 20px;
-}
-
-.comments p {
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    color: #333;
 }
 
 .back-button {
@@ -380,10 +295,33 @@ img {
     border: none;
     box-shadow: 0px 4px #bdbb46;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    align-self: flex-start; /* Aligns the button to the left */
+    align-self: flex-start; 
 }
 
 .back-button:active {
     background-color: #3f90e7;
     box-shadow: 0px 4px #003f7f;
 }
+
+.role {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.rating {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+div.rating {
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.fa-star, .fa-star-o, .fa-star-half-o {
+    color: orange;
+    margin: 1px;
+}
+
