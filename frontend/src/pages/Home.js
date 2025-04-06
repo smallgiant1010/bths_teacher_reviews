@@ -3,10 +3,13 @@ import "../css/Home.css"
 import withAuth from "../components/withAuth"
 import { useTeachersContext } from "../hooks/useTeachersContext"
 import { Title, Link } from "react-head"
+import AddCommentSection from "../components/AddCommentSection.js"
 
+/*
 const AddCommentSection = (props) => {
     return <button>Add Comment: {props.loggedIn}</button>
 };
+*/
 
 const EnhancedCommentSection = withAuth(AddCommentSection)
 

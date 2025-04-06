@@ -105,6 +105,7 @@ module.exports.remove_specific_comment = async(req, res) => {
     }
 };
 
+/*
 module.exports.post_specific_comment = async (req, res) => {
   const id = req.params.id;
   const data = req.body;
@@ -129,4 +130,50 @@ module.exports.post_specific_comment = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+*/
+
+module.exports.post_specific_comment = async (req, res) => {
+  const teacherId = req.params.id; // ID of the teacher being reviewed
+  const data = req.body; // Data submitted by the user
+
+  if (!mongoose.Types.ObjectId.isValid(teacherId)) {
+    return res.status(400).json({ error: "Invalid teacher ID format" });
+  }
+
+  // Validate that difficulty and workload ratings are provided
+  if (!data.difficulty || !data.workload || !data.experience) {
+    return res.status(400).json({ error: "Difficulty, workload, and a comment are required" });
+  }
+
+  try {
+    // Fetch the teacher's current data
+    const teacher = await Teacher.findById(teacherId);
+    if (!teacher) {
+      return res.status(404).json({ error: "Teacher not found" });
+    }
+
+    // Calculate the new average difficulty and workload ratings
+    const numComments = teacher.comments.length;
+    const newDifficulty =
+      (teacher.difficulty * numComments + data.difficulty) / (numComments + 1);
+    const newWorkload =
+      (teacher.workload * numComments + data.workload) / (numComments + 1);
+
+    // Create a new comment
+    const newComment = await Comment.create(data);
+
+    // Update the teacher with the new averages and add the comment
+    teacher.difficulty = newDifficulty.toFixed(2); // Round to 2 decimal places
+    teacher.workload = newWorkload.toFixed(2); // Round to 2 decimal places
+    teacher.comments.push(newComment);
+
+    await teacher.save();
+
+    res.status(200).json({ message: "Review submitted successfully", newComment });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
